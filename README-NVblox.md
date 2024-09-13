@@ -95,11 +95,11 @@ Follow the official [Isaac ROS Nvblox quickstart](https://nvidia-isaac-ros.githu
     Note: do `find / -name "*isaac-sim.sh"` to find where your bin is located if the above doesn't work
 3. Find the `localhost/NVIDIA/Assets/Isaac/4.0/Isaac/Samples/NvBlox/nvblox_sample_scene.usd` in your assets.
     
-   ![alt text](image.png)
+   ![alt text](./img/image.png)
 
 4. Drag and drop it in stage
    
-   ![alt text](image-1.png)
+   ![alt text](./img/image-1.png)
 
 5.  Play the scene
 
@@ -126,7 +126,7 @@ Follow the official [Isaac ROS Nvblox quickstart](https://nvidia-isaac-ros.githu
 
     ros2 launch nvblox_examples_bringup isaac_sim_example.launch.py
     ```
-    ![alt text](image-2.png)
+    ![alt text](./img/image-2.png)
    
 ## Running the Application
 Once everything is set up, run the example and observe the real-time 3D reconstruction of the environment in RViz.
