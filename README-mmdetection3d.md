@@ -76,9 +76,24 @@ pip install -v -e .
 ```bash
 python3 -c 'from mmengine.utils.dl_utils import collect_env;print(collect_env())'
 ```
-
+![alt text](./img/verifymmdetection.png)
 Note: This is for the installation of mmdetection libraries, We will need to install the mmdet3d library for mmdetection3d toolkit. Currently I seem to face some issues with pytorch - cuda - mmdetection3d compatibility issues. This has to be resolved for us to use the inference.
 
 Note2: Numpy version greater than 1.24 and lesser than 2.01 is required, so use `Numpy==1.26.4` to install some of the above libraries.
 
 Note3: You can even use Conda but make sure that all the python libraries are pointing towards your conda environment. I spent few hours trying to understand why even though I installed the right libraries versions they were not updated. 
+
+#### Step 2
+- Download kitty Model configs and checkpoint to run an inference
+  ```bash
+  mim download mmdet3d --config pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car --dest .
+  ```
+
+  ![alt text](./img/downloadmim.png)
+  Takes some time to download the model and configs
+
+- Run and check the demo
+  ```bash
+  python demo/pcd_demo.py demo/data/kitti/000008.bin pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car.py hv_pointpillars_secfpn_6x8_160e_kitti-3d-car_20220331_134606-d42d15ed.pth --show
+  ```
+  
