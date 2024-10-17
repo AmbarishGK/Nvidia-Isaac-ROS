@@ -21,79 +21,92 @@ Before you begin, ensure you have met the following requirements:
 - **Pytorch 1.7+** installed.
 - **MMCV** and **MMDetection** set up.
 
-### Installation
-#### Step 0 
-- Pytorch Installation
-  - Install on your local linux machine from [here](https://pytorch.org/get-started/locally/)
-  - Pytorch requires Cuda-tooklit 12.1 or 12.4, if you install 12.4, it will break your current setup of Isaac sim and nvidia-container-toolkit
-  - So make sure are at Linux 22.04, Nvidia 535.186.xx version and CUDA 12.2
-  - Don't do the autoinstallation, it will auto upgrade everything
-  - Currently Linux kernel 6.5.80 supports the Nvidia driver and plus. So don't do sudo upgrade because ubuntu pushes 6.8.40 which will crash your machine
-  - For details[see this](https://forums.developer.nvidia.com/t/which-nvidia-driver-and-ubuntu-version-to-use-without-breaking-my-machine/308787/2)
-- Install [pip](https://stackoverflow.com/questions/6587507/how-to-install-pip-with-python-3)
-  
+## Installation Guide for MMDet3D
+
+In this section, I will describe how to install MMDetection3D version 1.4.0 on my system (Ubuntu 22.04 with a GTX 4070 GPU) using a conda environment named `openmmlab` with Python 3.8.
+
+### Step 1: Create a Virtual Environment
+
+First, create and activate a new conda environment:
+
 ```bash
-sudo apt-get install python3-pip
-``` 
-- Install [openmim](https://github.com/open-mmlab/mmengine)
+conda create --name openmmlab python=3.8 -y
+conda activate openmmlab
+```
+
+### Step 2: Install PyTorch and Related Libraries
+
+Install the PyTorch and related libraries:
+
+```bash
+conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit=11.3 -c pytorch
+```
+
+### Step 3: Install OpenMMLab Libraries
+
+Use the package manager `mim` to install OpenMMLab-related libraries with specific versions:
+
 ```bash
 pip install -U openmim
-```
-- Make sure that `mim` is accesible from terminal or add in path
-```bash
-ls ~/.local/bin/mim
-echo $PATH
-export PATH="$HOME/.local/bin:$PATH"
-source ~/.bashrc
-``` 
-
-- Install mmengine
-```bash
-mim install mmengine
+mim install mmengine==0.10.3
+mim install mmcv==2.1.0
+mim install mmdet==3.3.0
 ```
 
-- Install MMCV and MMDetection
-```bash
-mim install 'mmcv>=2.0.0rc4'
-mim install 'mmdet>=3.0.0'
-```
+### Step 4: Install MMDetection3D
 
-#### Step 1
-
-- Clone the repository and install the MMDet3D:
+Clone the MMDetection3D repository and install it:
 
 ```bash
-git clone https://github.com/open-mmlab/mmdetection3d.git -b dev-1.x
-# "-b dev-1.x" means checkout to the `dev-1.x` branch.
+git clone https://github.com/open-mmlab/mmdetection3d.git -b dev-1.4.0
 cd mmdetection3d
 pip install -v -e .
-# "-v" means verbose, or more output
-# "-e" means installing a project in editable mode,
-# thus any local modifications made to the code will take effect without reinstallation.
 ```
 
-- Verify the installation
+> The `-v` flag provides more output, while the `-e` flag installs the package in editable mode, allowing local modifications without reinstallation.
+
+### Step 5: Install Additional Libraries
+
+Install additional libraries required for specific models with sparse convolution:
+
 ```bash
-python3 -c 'from mmengine.utils.dl_utils import collect_env;print(collect_env())'
+pip install cumm-cu113
+pip install spconv-cu113
 ```
-![alt text](./img/verifymmdetection.png)
-Note: This is for the installation of mmdetection libraries, We will need to install the mmdet3d library for mmdetection3d toolkit. Currently I seem to face some issues with pytorch - cuda - mmdetection3d compatibility issues. This has to be resolved for us to use the inference.
 
-Note2: Numpy version greater than 1.24 and lesser than 2.01 is required, so use `Numpy==1.26.4` to install some of the above libraries.
+Make sure to specify the CUDA version when installing `cumm` and `spconv`, as these libraries require the correct CUDA version that matches your environment.
 
-Note3: You can even use Conda but make sure that all the python libraries are pointing towards your conda environment. I spent few hours trying to understand why even though I installed the right libraries versions they were not updated. 
+### Step 6: Verify Installation
 
-#### Step 2
-- Download kitty Model configs and checkpoint to run an inference
-  ```bash
-  mim download mmdet3d --config pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car --dest .
-  ```
+To confirm that MMDetection3D is successfully installed, you can check the installed libraries:
 
-  ![alt text](./img/downloadmim.png)
-  Takes some time to download the model and configs
+```bash
+conda activate openmmlab
+pip list | grep mm
+```
 
-- Run and check the demo
-  ```bash
-  python demo/pcd_demo.py demo/data/kitti/000008.bin pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car.py hv_pointpillars_secfpn_6x8_160e_kitti-3d-car_20220331_134606-d42d15ed.pth --show
-  ```
-  
+### Running a Demo to Ensure Successful Installation
+
+To verify that MMDetection3D is installed correctly, you can conduct inference on sample data using a pre-trained 3D detector. First, download the pre-trained weights for the PointPillar model:
+
+```bash
+mim download mmdet3d --config pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car --dest .
+```
+
+This command downloads the configuration file and pre-trained weight for the PointPillar model into the current working directory:
+
+- **Config:** `pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car.py`
+- **Weight:** `hv_pointpillars_secfpn_6x8_160e_kitti-3d-car_20220331_134606-d42d15ed.pth`
+
+Once downloaded, you can run the demo to visualize the results:
+
+```bash
+cd mmdetection3d
+python demo/pcd_demo.py demo/data/kitti/000008.bin pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car.py hv_pointpillars_secfpn_6x8_160e_kitti-3d-car_20220331_134606-d42d15ed.pth --show
+```
+
+If all requirements are met, this command will plot the point cloud of the provided sample data along with the 3D bounding boxes predicted by the PointPillar model.
+![My Video](https://github.com/AmbarishGK/Nvidia-Isaac-ROS/blob/main/mmdetection3dworking.webm?raw=True)
+
+
+
