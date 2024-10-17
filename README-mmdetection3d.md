@@ -106,7 +106,7 @@ python demo/pcd_demo.py demo/data/kitti/000008.bin pointpillars_hv_secfpn_8xb6-1
 ```
 
 If all requirements are met, this command will plot the point cloud of the provided sample data along with the 3D bounding boxes predicted by the PointPillar model.
-![My Video](https://github.com/AmbarishGK/Nvidia-Isaac-ROS/blob/main/mmdetection3dworking.webm?raw=True)
+![My Video](./videos/mmdetection3dworking.webm?raw=True)
 
 
 
