@@ -75,6 +75,13 @@ AckermannDriveStamped used for publishing and subscribing to Ackermann steering 
 ```bash
 sudo apt install ros-humble-ackermann-msgs
 ```
+Additional packages which may come handy when coding
+```bash
+# For rosdep install command
+sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
+# For colcon build command
+sudo apt install python3-colcon-common-extensions
+```
 
 ### 1.4 Add sourcing to your terminal
 
