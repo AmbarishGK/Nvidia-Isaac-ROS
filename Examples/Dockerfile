@@ -31,6 +31,12 @@ RUN apt-get update && apt-get install -y software-properties-common && \
     apt-get update && apt-get upgrade -y && \
     apt-get install -y ros-humble-desktop
 
+RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx \
+    libxkbcommon-x11-0 \
+    x11-apps \
+    && rm -rf /var/lib/apt/lists/*
+
 # Install PyTorch with CUDA support
 RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117
 
@@ -42,12 +48,20 @@ RUN pip3 install -U openmim && \
     mim install "mmdet3d>=1.1.0" && \
     pip3 install 'numpy==1.26'
 
-# Set working directory
-WORKDIR /workspace
+    
 
+# RUN git clone https://github.com/open-mmlab/mmdetection3d.git -b dev-1.x
+# Set working directory
+WORKDIR /workspace/
+# RUN mim download mmdet3d --config pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car --dest .
 # Source ROS2 setup in bashrc
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+COPY Entrypoint.sh /Entrypoint.sh
 
+# Make the script executable
+RUN chmod +x /Entrypoint.sh
 # Default command
-CMD ["/bin/bash"]
+ENTRYPOINT ["/Entrypoint.sh"]
+CMD ["tail", "-f", "/dev/null"]
+
 
