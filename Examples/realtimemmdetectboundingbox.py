@@ -146,8 +146,8 @@ class LiDARDetectionNode(Node):
 
         print("HEYHEYHEY")
         box = points.tensor[0]  # First bounding box
-        x, y, z = box[0].item(), box[1].item(), box[2].item()  # Center coordinates
-        l, w, h = box[3].item(), box[4].item(), box[5].item()  # Dimensions
+        x, y, z = box[0].item()/2, box[1].item()/2, box[2].item()/2  # Center coordinates
+        l, w, h = box[3].item()/2, box[4].item()/2, box[5].item()/2  # Dimensions
         yaw = box[6].item()  # Orientation angle in radians
         # Get the corners of the bounding box
         print(x,y,z,l,w,h,yaw)
@@ -208,15 +208,15 @@ class LiDARDetectionNode(Node):
             marker.type = Marker.CUBE
 
             # Set position and orientation
-            marker.pose.position.x = float(box[0])
-            marker.pose.position.y = float(box[1])
-            marker.pose.position.z = float(box[2])
+            marker.pose.position.x = float(box[0]/2)
+            marker.pose.position.y = float(box[1]/2)
+            marker.pose.position.z = float(box[2]/2)
             marker.pose.orientation.w = 1.0  # Assuming no rotation (this may need adjustment based on your model's yaw)
 
             # Set scale (length, width, height)
-            marker.scale.x = float(box[3] ) # length
-            marker.scale.y = float(box[4])  # width
-            marker.scale.z = float(box[5])  # height
+            marker.scale.x = float(box[3]/2 ) # length
+            marker.scale.y = float(box[4]/2)  # width
+            marker.scale.z = float(box[5]/2)  # height
 
             # Set color (you can use a color map based on the score or label)
             marker.color.r = 0.0
@@ -225,7 +225,7 @@ class LiDARDetectionNode(Node):
             marker.color.a = 0.5  # Transparency
 
             # Set lifetime
-            marker.lifetime = Duration(seconds=1).to_msg()
+            marker.lifetime = Duration(seconds=5).to_msg()
 
             # Add marker to MarkerArray
             marker_array.markers.append(marker)
@@ -243,3 +243,4 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
+
