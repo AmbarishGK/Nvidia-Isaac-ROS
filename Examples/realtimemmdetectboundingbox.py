@@ -52,7 +52,7 @@ class LiDARDetectionNode(Node):
 
             # Check if points are empty
             if len(points) == 0:
-                self.get_logger().warn("Received empty point cloud!")
+                self.get_logger().warn("Received emptypoint cloud!")
                 return
 
             # self.get_logger().info(f"Point cloud size: {points.shape}")
