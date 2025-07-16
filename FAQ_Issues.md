@@ -60,4 +60,6 @@ Replace <version> with the specific version you wish to install:
 sudo apt-get install linux-image-<version> linux-headers-<version>
 sudo update-grub
 sudo reboot
+# Reconfigure driver for your kernel
+dpkg-reconfigure nvidia-dkms-xxx
 ```
