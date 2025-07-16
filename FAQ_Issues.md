@@ -43,6 +43,7 @@ After purging, install the preferred version of the driver:
 # Update your package lists and install the NVIDIA driver
 sudo apt update
 sudo apt upgrade
+# change to the version you like, now its 570 for mine
 sudo apt install nvidia-driver-535 nvidia-dkms-535
 ```
 ### 5. My kernel is 6.8.xx, how to downgrade?
@@ -63,3 +64,13 @@ sudo reboot
 # Reconfigure driver for your kernel
 dpkg-reconfigure nvidia-dkms-xxx
 ```
+
+### Current Update of working System Information
+- **Machine Name**: amb-Dell-G16-7630
+- **Operating System**: Ubuntu 22.04.5
+- **Kernel Version**: 6.5.0-41-lowlatency
+
+### Hardware Configuration
+- **GPU**: NVIDIA GeForce 4070
+- **NVIDIA Driver Version**: 570.169.xx
+- **CUDA Version**: 12.8
